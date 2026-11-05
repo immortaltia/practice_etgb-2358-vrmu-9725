@@ -29,6 +29,7 @@ jobs:
           name: build-output
           path: dist/
           if-no-files-found: error
+          
       - name: Decode SSH key
         run: |
           echo "${{ secrets.EC2_SSH_KEY_B64 }}" | base64 -d > ec2-key.pem
