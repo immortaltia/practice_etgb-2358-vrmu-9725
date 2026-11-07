@@ -1,3 +1,10 @@
 node_modules
 .env
 *.pem
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+crash.log
+keys

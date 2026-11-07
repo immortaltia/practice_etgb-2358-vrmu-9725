@@ -17,3 +17,17 @@ docker compose logs app
 - image tag is the short commit hash
 - image is pushed to Docker Hub
 - docker-compose.yml is copied to EC2 and started with docker compose
+
+### Infrastructure (Terraform)
+
+```
+cd terraform
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+```
+
+- creates a Security Group (ports 22 and 3000) and an EC2 instance with Docker installed
+- the value of `instance_ip` goes into the `EC2_HOST` GitHub secret
+- `EC2_USER` secret must be `ubuntu`
