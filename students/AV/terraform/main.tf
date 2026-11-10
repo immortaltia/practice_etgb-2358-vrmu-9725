@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">= 1.5"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -37,6 +39,10 @@ resource "aws_security_group" "app" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = var.security_group_name
+  }
 }
 
 resource "aws_instance" "app" {
@@ -45,14 +51,18 @@ resource "aws_instance" "app" {
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.app.id]
 
-  user_data = <<-EOF
+  metadata_options {
+    http_tokens = "required"
+  }
+
+  user_data = <<-EOT
     #!/bin/bash
     set -e
     apt-get update -y
     curl -fsSL https://get.docker.com | sh
     usermod -aG docker ubuntu
     systemctl enable --now docker
-  EOF
+  EOT
 
   tags = {
     Name = var.instance_name
